@@ -1,275 +1,380 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Michael Ferro - Bookshelf</title>
-<style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #fafafa;
-            font-family: 'Courier New', Courier, monospace;
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Michael Ferro - Bookshelf</title>
+  
+  <style>
+    :root {
+      --fg: #2c2c2c;
+      --muted: #666;
+      --border: #eee;
+      --maxw: 1200px;
+    }
 
-        .nav {
-            margin-bottom: 60px;
-        }
-        
-        .nav a {
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: 600;
-            text-decoration: none;
-            color: #666;
-            margin-right: 20px;
-            letter-spacing: -0.5px;
-        }
-        
-        .nav a.selected {
-            color: #2c2c2c;
-            text-decoration: underline;
-        }
-        
-        .nav a:hover {
-            color: #2c2c2c;
-        }
+    * { box-sizing: border-box; }
 
-        .bookshelf {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    html, body {
+      height: 100%;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
 
-        .section {
-            margin-bottom: 80px;
-        }
+    body {
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: var(--fg);
+      overflow-x: hidden;
+    }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 30px;
-            padding: 0 10px;
-        }
+    .page {
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 56px 20px 32px;
+      line-height: 1.5;
+      letter-spacing: -0.2px;
+      position: relative;
+    }
 
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #666;
-            letter-spacing: -0.5px;
-        }
+    /* Top nav */
+    .nav {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 36px;
+      position: relative;
+      z-index: 10;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .nav a[aria-current="page"],
+    .nav a:hover {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
 
-        .full-shelf {
-            font-size: 12px;
-            color: #999;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+    h1 {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-weight: 500;
+      font-size: clamp(28px, 5vw, 40px);
+      letter-spacing: 0;
+      margin: 0 0 8px;
+      position: relative;
+      z-index: 10;
+    }
 
-        .full-shelf:hover {
-            color: #666;
-        }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 24px;
+      position: relative;
+      z-index: 10;
+      line-height: 1.4;
+    }
 
-        .shelf {
-            background: linear-gradient(to bottom, #f8f8f8 0%, #eeeeee 50%, #e8e8e8 100%);
-            padding: 25px 80px;
-            border-radius: 12px;
-            box-shadow: 
-                0 2px 20px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-            position: relative;
-            margin: 0 auto;
-            max-width: 700px;
-        }
+    /* Bookshelf canvas */
+    .bookshelf-canvas {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      min-height: 600px;
+      margin: 40px 0;
+      background: #fff;
+      border: 2px dashed #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: grab;
+    }
 
-        .shelf::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 20px;
-            right: 20px;
-            height: 8px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
-            border-radius: 50%;
-            filter: blur(3px);
-        }
+    .bookshelf-canvas:active {
+      cursor: grabbing;
+    }
 
-        .books {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            padding: 5px 0 15px 0;
-        }
+    /* Book styles */
+    .book {
+      position: absolute;
+      width: 180px;
+      height: 270px;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: grab;
+      transition: box-shadow 0.2s ease, transform 0.1s ease;
+      user-select: none;
+      transform-origin: center;
+    }
 
-        .book {
-            width: 90px;
-            height: 130px;
-            border-radius: 3px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
+    .book:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      transform: scale(1.05);
+    }
 
-        .book:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
+    .book:active {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
 
-        .book::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 15px;
-            background: radial-gradient(ellipse, rgba(0, 0, 0, 0.1) 0%, transparent 70%);
-            transition: opacity 0.2s ease;
-        }
+    .book.dragging {
+      z-index: 1000;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
 
-        .book:hover::after {
-            opacity: 0.5;
-        }
+    /* Book cover images - Random positions will be set by JavaScript */
+    .book:nth-child(1) { background-image: url('images/books/716tdtSf4jL._UF1000,1000_QL80_.jpg'); } /* 1984 */
+    .book:nth-child(2) { background-image: url('images/books/51VFkbM2siL._UF1000,1000_QL80_.jpg'); } /* Almanack of Naval Ravikant */
+    .book:nth-child(3) { background-image: url('images/books/51lmpnWEuEL._UF1000,1000_QL80_.jpg'); } /* Ascent of Money */
+    .book:nth-child(4) { background-image: url('images/books/51zGCdRQXOL._UF1000,1000_QL80_.jpg'); } /* Hackers and Painters */
+    .book:nth-child(5) { background-image: url('images/books/71OzwQuntHL._UF1000,1000_QL80_.jpg'); } /* King of Capital */
+    .book:nth-child(6) { background-image: url('images/books/716E6dQ4BXL._UF1000,1000_QL80_.jpg'); } /* Little Book That Beats the Market */
+    .book:nth-child(7) { background-image: url('images/books/4069.jpg'); } /* Man's Search for Meaning */
+    .book:nth-child(8) { background-image: url('images/books/81nnMgmqbKS._UF1000,1000_QL80_.jpg'); } /* Mastering the Market Cycles */
+    .book:nth-child(9) { background-image: url('images/books/91lrSGRfaiL._UF1000,1000_QL80_.jpg'); } /* Meditations */
+    .book:nth-child(10) { background-image: url('images/books/61sDFu75vAS._UF1000,1000_QL80_.jpg'); } /* Outliers */
+    .book:nth-child(11) { background-image: url('images/books/71N8U2Qm1EL._UF1000,1000_QL80_.jpg'); } /* Poor Charlie's Almanack */
+    .book:nth-child(12) { background-image: url('images/books/61Ij8nLooNL._UF1000,1000_QL80_.jpg'); } /* Power of Now */
+    .book:nth-child(13) { background-image: url('images/books/81qZ5kGMQ1L._UF1000,1000_QL80_.jpg'); } /* Richest Man in Babylon */
+    .book:nth-child(14) { background-image: url('images/books/81vgkcr86iL._UF1000,1000_QL80_.jpg'); } /* Sapiens */
+    .book:nth-child(15) { background-image: url('images/books/71wSz6VVk6L._UF1000,1000_QL80_.jpg'); } /* War of Art */
+    .book:nth-child(16) { background-image: url('images/books/61lzyZHp1vL._UF1000,1000_QL80_.jpg'); } /* Zero to One */
+    .book:nth-child(17) { background-image: url('images/books/51wn9eThjtL._UF1000,1000_QL80_.jpg'); } /* New Book 1 */
+    .book:nth-child(18) { background-image: url('images/books/71tgNZQXn-L._UF1000,1000_QL80_.jpg'); } /* New Book 2 */
 
-        /* Book cover styles */
-        .book-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .book-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .book-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .book-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .book-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .book-6 { background: linear-gradient(135deg, #30cfd0 0%, #91a7ff 100%); }
-        .book-7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
-        .book-8 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
-        .book-9 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
-        .book-10 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-        .book-11 { background: linear-gradient(135deg, #ff8a80 0%, #ffb74d 100%); }
-        .book-12 { background: linear-gradient(135deg, #8fd3f4 0%, #84fab0 100%); }
-        .book-13 { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); }
-        .book-14 { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
-        .book-15 { background: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%); }
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+    .icons {
+      display: flex;
+      gap: 14px;
+    }
+    .icons a {
+      display: inline-flex;
+      width: 24px;
+      height: 24px;
+      opacity: .8;
+    }
+    .icons a:hover { opacity: 1; }
+    .icons svg { width: 100%; height: 100%; fill: var(--fg); }
 
-        .book-spine {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.1);
-        }
+    @media (max-width: 768px) {
+      .bookshelf-canvas {
+        height: 60vh;
+        min-height: 400px;
+      }
+      
+      .book {
+        width: 120px;
+        height: 180px;
+      }
+    }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 15px;
-            }
-            
-            .bookshelf {
-                max-width: 100%;
-            }
-            
-            .section-title {
-                font-size: 14px;
-            }
-        }
-    </style>
+    @media (max-width: 480px) {
+      .bookshelf-canvas {
+        height: 50vh;
+        min-height: 300px;
+      }
+      
+      .book {
+        width: 100px;
+        height: 150px;
+      }
+    }
+  </style>
 </head>
-<body>
-<nav class="nav">
-<a href="/">home</a>
-<a class="selected" href="/bookshelf.html">bookshelf</a>
-</nav>
-<div class="bookshelf">
-<div class="section">
-<div class="shelf">
-<div class="books">
-<div class="book book-1">
-<div class="book-spine"></div>
-</div>
-<div class="book book-2">
-<div class="book-spine"></div>
-</div>
-<div class="book book-3">
-<div class="book-spine"></div>
-</div>
-<div class="book book-4">
-<div class="book-spine"></div>
-</div>
-<div class="book book-5">
-<div class="book-spine"></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section">
-<div class="shelf">
-<div class="books">
-<div class="book book-6">
-<div class="book-spine"></div>
-</div>
-<div class="book book-7">
-<div class="book-spine"></div>
-</div>
-<div class="book book-8">
-<div class="book-spine"></div>
-</div>
-<div class="book book-9">
-<div class="book-spine"></div>
-</div>
-<div class="book book-10">
-<div class="book-spine"></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section">
-<div class="shelf">
-<div class="books">
-<div class="book book-11">
-<div class="book-spine"></div>
-</div>
-<div class="book book-12">
-<div class="book-spine"></div>
-</div>
-<div class="book book-13">
-<div class="book-spine"></div>
-</div>
-<div class="book book-14">
-<div class="book-spine"></div>
-</div>
-<div class="book book-15">
-<div class="book-spine"></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section">
-<div class="shelf">
-<div class="books">
-<div class="book book-1">
-<div class="book-spine"></div>
-</div>
-<div class="book book-2">
-<div class="book-spine"></div>
-</div>
-<div class="book book-3">
-<div class="book-spine"></div>
-</div>
-<div class="book book-4">
-<div class="book-spine"></div>
-</div>
-<div class="book book-5">
-<div class="book-spine"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
 
+<body>
+  <main class="page">
+    <!-- Top navigation -->
+    <nav class="nav" aria-label="Primary">
+      <a href="/">home</a>
+      <a href="/bookshelf.html" aria-current="page">bookshelf</a>
+    </nav>
+
+    <header>
+      <h1>Books</h1>
+      <p class="subtitle">things i've read, mostly from friends' suggestions or online. still a long list ahead</p>
+    </header>
+
+    <section class="bookshelf" aria-labelledby="books">
+             <div class="bookshelf-canvas" id="bookshelf-canvas">
+         <div class="book" role="listitem" aria-label="Book 1"></div>
+         <div class="book" role="listitem" aria-label="Book 2"></div>
+         <div class="book" role="listitem" aria-label="Book 3"></div>
+         <div class="book" role="listitem" aria-label="Book 4"></div>
+         <div class="book" role="listitem" aria-label="Book 5"></div>
+         <div class="book" role="listitem" aria-label="Book 6"></div>
+         <div class="book" role="listitem" aria-label="Book 7"></div>
+         <div class="book" role="listitem" aria-label="Book 8"></div>
+         <div class="book" role="listitem" aria-label="Book 9"></div>
+         <div class="book" role="listitem" aria-label="Book 10"></div>
+         <div class="book" role="listitem" aria-label="Book 11"></div>
+         <div class="book" role="listitem" aria-label="Book 12"></div>
+         <div class="book" role="listitem" aria-label="Book 13"></div>
+         <div class="book" role="listitem" aria-label="Book 14"></div>
+         <div class="book" role="listitem" aria-label="Book 15"></div>
+         <div class="book" role="listitem" aria-label="Book 16"></div>
+         <div class="book" role="listitem" aria-label="Book 17"></div>
+         <div class="book" role="listitem" aria-label="Book 18"></div>
+       </div>
+    </section>
+
+    <!-- Footer / social -->
+    <footer class="footer">
+      <div class="icons" aria-label="Social links">
+        <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/ferrom/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+      </div>
+
+      <nav class="nav" aria-label="Secondary">
+        <a href="/">home</a>
+        <a href="/bookshelf.html" aria-current="page">bookshelf</a>
+      </nav>
+    </footer>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('bookshelf-canvas');
+      const books = document.querySelectorAll('.book');
+      
+      // Randomly position books initially
+      function randomizeBooks() {
+        books.forEach(book => {
+          const canvasRect = canvas.getBoundingClientRect();
+          const maxX = canvasRect.width - 180;
+          const maxY = canvasRect.height - 270;
+          
+          const x = Math.random() * maxX;
+          const y = Math.random() * maxY;
+          const rotation = (Math.random() - 0.5) * 60; // Random rotation between -30 and 30 degrees
+          
+          book.style.left = x + 'px';
+          book.style.top = y + 'px';
+          book.style.transform = `rotate(${rotation}deg)`;
+        });
+      }
+      
+      // Dragging functionality
+      let isDragging = false;
+      let currentBook = null;
+      let offsetX = 0;
+      let offsetY = 0;
+      
+      books.forEach(book => {
+        book.addEventListener('mousedown', startDrag);
+        book.addEventListener('touchstart', startDrag, { passive: false });
+      });
+      
+      function startDrag(e) {
+        e.preventDefault();
+        isDragging = true;
+        currentBook = e.target;
+        
+        const rect = currentBook.getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        
+        if (e.type === 'mousedown') {
+          offsetX = e.clientX - rect.left;
+          offsetY = e.clientY - rect.top;
+        } else if (e.type === 'touchstart') {
+          offsetX = e.touches[0].clientX - rect.left;
+          offsetY = e.touches[0].clientY - rect.top;
+        }
+        
+        currentBook.classList.add('dragging');
+        
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchend', stopDrag);
+      }
+      
+      function drag(e) {
+        if (!isDragging || !currentBook) return;
+        
+        e.preventDefault();
+        
+        const canvasRect = canvas.getBoundingClientRect();
+        let clientX, clientY;
+        
+        if (e.type === 'mousemove') {
+          clientX = e.clientX;
+          clientY = e.clientY;
+        } else if (e.type === 'touchmove') {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        }
+        
+        const x = clientX - canvasRect.left - offsetX;
+        const y = clientY - canvasRect.top - offsetY;
+        
+        // Keep book within canvas bounds
+        const maxX = canvasRect.width - 180;
+        const maxY = canvasRect.height - 270;
+        
+        const clampedX = Math.max(0, Math.min(x, maxX));
+        const clampedY = Math.max(0, Math.min(y, maxY));
+        
+        currentBook.style.left = clampedX + 'px';
+        currentBook.style.top = clampedY + 'px';
+      }
+      
+      function stopDrag() {
+        if (currentBook) {
+          currentBook.classList.remove('dragging');
+        }
+        
+        isDragging = false;
+        currentBook = null;
+        
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('touchmove', drag);
+        document.removeEventListener('mouseup', stopDrag);
+        document.removeEventListener('touchend', stopDrag);
+      }
+      
+      // Initialize random positions
+      randomizeBooks();
+      
+      // Add some overlap and clustering for a more natural look
+      setTimeout(() => {
+        books.forEach((book, index) => {
+          const currentLeft = parseFloat(book.style.left);
+          const currentTop = parseFloat(book.style.top);
+          
+          // Add some intentional overlap
+          const overlapX = (Math.random() - 0.5) * 40;
+          const overlapY = (Math.random() - 0.5) * 40;
+          
+          book.style.left = (currentLeft + overlapX) + 'px';
+          book.style.top = (currentTop + overlapY) + 'px';
+        });
+      }, 100);
+    });
+  </script>
 </body>
 </html>
