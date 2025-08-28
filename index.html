@@ -262,12 +262,12 @@
 
     <section aria-labelledby="about">
       <ul>
-        <li>20. Currently growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a></li>
-                 <li>Third-year economics student at Chapman. Scaling <a href="https://www.chapmanentrepreneurs.org/" target="_blank" rel="noopener noreferrer">startup culture</a> on campus.</li>
+        <li>20. Currently growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a><span id="live-indicator" style="display: none;"> We're <a href="https://www.youtube.com/@TBPNLive" target="_blank" rel="noopener noreferrer">live</a> now.</span></li>
+                 <li>Third-year economics student at Chapman. Scaling <a href="https://www.chapmanentrepreneurs.org/" target="_blank" rel="noopener noreferrer">startup culture</a> on campus</li>
         <li>Previously at a family office</li>
       </ul>
              <p>In my free time I like to travel, cook, read, and stay active through sports or the gym.</p>
-       <p>I'll also stop to take photos of whatever catches my eye. Here are five from this year:</p>
+       <p>I also like to take photos of things I find aesthetic, usually architecture.</p>
     </section>
 
     <section class="photo-gallery" aria-labelledby="photos">
@@ -408,6 +408,33 @@
         lightboxImage.alt = currentImage.getAttribute('aria-label');
         lightboxDescription.textContent = description;
       }
+      
+      // Live indicator functionality
+      function checkLiveStatus() {
+        const liveIndicator = document.getElementById('live-indicator');
+        const now = new Date();
+        const pstTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+        
+        const dayOfWeek = pstTime.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+        const hour = pstTime.getHours();
+        
+        // Check if it's a weekday (Monday = 1, Tuesday = 2, ..., Friday = 5)
+        // and between 11am (11) and 2pm (14) PT
+        const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5;
+        const isLiveTime = hour >= 11 && hour < 14;
+        
+        if (isWeekday && isLiveTime) {
+          liveIndicator.style.display = 'inline';
+        } else {
+          liveIndicator.style.display = 'none';
+        }
+      }
+      
+      // Check live status on page load
+      checkLiveStatus();
+      
+      // Check live status every minute
+      setInterval(checkLiveStatus, 60000);
     });
   </script>
 </body>
