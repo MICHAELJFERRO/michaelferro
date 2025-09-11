@@ -13,7 +13,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Michael Ferro - Bookshelf</title>
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="images/01anyn9kjAL.png" type="image/png">
   
   <style>
     :root {
@@ -46,6 +46,39 @@
       line-height: 1.5;
       letter-spacing: -0.2px;
       position: relative;
+    }
+
+    /* View toggle */
+    .view-toggle {
+      position: absolute;
+      top: 56px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+    }
+    
+    .view-toggle button {
+      background: none;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .view-toggle button:hover {
+      color: var(--fg);
+      border-color: var(--fg);
+    }
+    
+    .view-toggle button.active {
+      background: var(--fg);
+      color: white;
+      border-color: var(--fg);
     }
 
     /* Top nav */
@@ -105,6 +138,33 @@
       -ms-user-select: none;
       user-select: none;
     }
+    
+    /* List view */
+    .bookshelf-list {
+      display: none;
+      margin: 40px 0;
+    }
+    
+    .bookshelf-list.show {
+      display: block;
+    }
+    
+    .bookshelf-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .bookshelf-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--fg);
+      font-size: 14px;
+    }
+    
+    .bookshelf-list li:last-child {
+      border-bottom: none;
+    }
 
     .bookshelf-canvas:active {
       cursor: grabbing;
@@ -150,21 +210,22 @@
     .book:nth-child(2) { background-image: url('images/books/51VFkbM2siL._UF1000,1000_QL80_.jpg'); } /* Almanack of Naval Ravikant */
     .book:nth-child(3) { background-image: url('images/books/51lmpnWEuEL._UF1000,1000_QL80_.jpg'); } /* Ascent of Money */
     .book:nth-child(4) { background-image: url('images/books/51zGCdRQXOL._UF1000,1000_QL80_.jpg'); } /* Hackers and Painters */
-    .book:nth-child(5) { background-image: url('images/books/71OzwQuntHL._UF1000,1000_QL80_.jpg'); } /* King of Capital */
-    .book:nth-child(6) { background-image: url('images/books/716E6dQ4BXL._UF1000,1000_QL80_.jpg'); } /* Little Book That Beats the Market */
-    .book:nth-child(7) { background-image: url('images/books/4069.jpg'); } /* Man's Search for Meaning */
-    .book:nth-child(8) { background-image: url('images/books/81nnMgmqbKS._UF1000,1000_QL80_.jpg'); } /* Mastering the Market Cycles */
-    .book:nth-child(9) { background-image: url('images/books/91lrSGRfaiL._UF1000,1000_QL80_.jpg'); } /* Meditations */
-    .book:nth-child(10) { background-image: url('images/books/61sDFu75vAS._UF1000,1000_QL80_.jpg'); } /* Outliers */
-    .book:nth-child(11) { background-image: url('images/books/71N8U2Qm1EL._UF1000,1000_QL80_.jpg'); } /* Poor Charlie's Almanack */
-    .book:nth-child(12) { background-image: url('images/books/61Ij8nLooNL._UF1000,1000_QL80_.jpg'); } /* Power of Now */
-    .book:nth-child(13) { background-image: url('images/books/81qZ5kGMQ1L._UF1000,1000_QL80_.jpg'); } /* Richest Man in Babylon */
-    .book:nth-child(14) { background-image: url('images/books/81vgkcr86iL._UF1000,1000_QL80_.jpg'); } /* Sapiens */
-    .book:nth-child(15) { background-image: url('images/books/71wSz6VVk6L._UF1000,1000_QL80_.jpg'); } /* War of Art */
-    .book:nth-child(16) { background-image: url('images/books/61lzyZHp1vL._UF1000,1000_QL80_.jpg'); } /* Zero to One */
-    .book:nth-child(17) { background-image: url('images/books/51wn9eThjtL._UF1000,1000_QL80_.jpg'); } /* New Book 1 */
-.book:nth-child(18) { background-image: url('images/books/71tgNZQXn-L._UF1000,1000_QL80_.jpg'); } /* New Book 2 */
-.book:nth-child(19) { background-image: url('images/books/hrdware.jpg'); } /* Hardware */
+    .book:nth-child(5) { background-image: url('images/books/hrdware.jpg'); } /* Hardware */
+    .book:nth-child(6) { background-image: url('images/books/71QF22-BIhL._UF1000,1000_QL80_.jpg'); } /* Things Hidden Since the Foundation of the World */
+    .book:nth-child(7) { background-image: url('images/books/71OzwQuntHL._UF1000,1000_QL80_.jpg'); } /* King of Capital */
+    .book:nth-child(8) { background-image: url('images/books/716E6dQ4BXL._UF1000,1000_QL80_.jpg'); } /* Little Book That Beats the Market */
+    .book:nth-child(9) { background-image: url('images/books/4069.jpg'); } /* Man's Search for Meaning */
+    .book:nth-child(10) { background-image: url('images/books/81nnMgmqbKS._UF1000,1000_QL80_.jpg'); } /* Mastering the Market Cycles */
+    .book:nth-child(11) { background-image: url('images/books/91lrSGRfaiL._UF1000,1000_QL80_.jpg'); } /* Meditations */
+    .book:nth-child(12) { background-image: url('images/books/61sDFu75vAS._UF1000,1000_QL80_.jpg'); } /* Outliers */
+    .book:nth-child(13) { background-image: url('images/books/71N8U2Qm1EL._UF1000,1000_QL80_.jpg'); } /* Poor Charlie's Almanack */
+    .book:nth-child(14) { background-image: url('images/books/61Ij8nLooNL._UF1000,1000_QL80_.jpg'); } /* Power of Now */
+    .book:nth-child(15) { background-image: url('images/books/81qZ5kGMQ1L._UF1000,1000_QL80_.jpg'); } /* Richest Man in Babylon */
+    .book:nth-child(16) { background-image: url('images/books/81vgkcr86iL._UF1000,1000_QL80_.jpg'); } /* Sapiens */
+    .book:nth-child(17) { background-image: url('images/books/71wSz6VVk6L._UF1000,1000_QL80_.jpg'); } /* War of Art */
+    .book:nth-child(18) { background-image: url('images/books/61lzyZHp1vL._UF1000,1000_QL80_.jpg'); } /* Zero to One */
+    .book:nth-child(19) { background-image: url('images/books/51wn9eThjtL._UF1000,1000_QL80_.jpg'); } /* New Book 1 */
+    .book:nth-child(20) { background-image: url('images/books/71tgNZQXn-L._UF1000,1000_QL80_.jpg'); } /* New Book 2 */
 
     /* Footer */
     .footer {
@@ -226,30 +287,42 @@
     <header>
       <h1>Books</h1>
       <p class="subtitle">things i've read, mostly from friends' suggestions or online. still a long list ahead</p>
+      
+      <div class="view-toggle">
+        <button id="grid-view" class="active">pile</button>
+        <button id="list-view">list</button>
+      </div>
     </header>
 
     <section class="bookshelf" aria-labelledby="books">
-             <div class="bookshelf-canvas" id="bookshelf-canvas">
-         <div class="book" role="listitem" aria-label="Book 1"></div>
-         <div class="book" role="listitem" aria-label="Book 2"></div>
-         <div class="book" role="listitem" aria-label="Book 3"></div>
-         <div class="book" role="listitem" aria-label="Book 4"></div>
-         <div class="book" role="listitem" aria-label="Book 5"></div>
-         <div class="book" role="listitem" aria-label="Book 6"></div>
-         <div class="book" role="listitem" aria-label="Book 7"></div>
-         <div class="book" role="listitem" aria-label="Book 8"></div>
-         <div class="book" role="listitem" aria-label="Book 9"></div>
-         <div class="book" role="listitem" aria-label="Book 10"></div>
-         <div class="book" role="listitem" aria-label="Book 11"></div>
-         <div class="book" role="listitem" aria-label="Book 12"></div>
-         <div class="book" role="listitem" aria-label="Book 13"></div>
-         <div class="book" role="listitem" aria-label="Book 14"></div>
-         <div class="book" role="listitem" aria-label="Book 15"></div>
-         <div class="book" role="listitem" aria-label="Book 16"></div>
-         <div class="book" role="listitem" aria-label="Book 17"></div>
-         <div class="book" role="listitem" aria-label="Book 18"></div>
-         <div class="book" role="listitem" aria-label="Book 19"></div>
-       </div>
+      <div class="bookshelf-canvas" id="bookshelf-canvas">
+        <div class="book" role="listitem" aria-label="Book 1" data-title="1984, George Orwell"></div>
+        <div class="book" role="listitem" aria-label="Book 2" data-title="The Almanack of Naval Ravikant, Eric Jorgenson"></div>
+        <div class="book" role="listitem" aria-label="Book 3" data-title="The Ascent of Money, Niall Ferguson"></div>
+        <div class="book" role="listitem" aria-label="Book 4" data-title="Hackers and Painters, Paul Graham"></div>
+        <div class="book" role="listitem" aria-label="Book 5" data-title="Hardware, Reggie James"></div>
+        <div class="book" role="listitem" aria-label="Book 6" data-title="Things Hidden Since the Foundation of the World, René Girard"></div>
+        <div class="book" role="listitem" aria-label="Book 7" data-title="High Growth Handbook, Elad Gil"></div>
+        <div class="book" role="listitem" aria-label="Book 8" data-title="King of Capital, David Carey & John E. Morris"></div>
+        <div class="book" role="listitem" aria-label="Book 9" data-title="The Little Book That Beats the Market, Joel Greenblatt"></div>
+        <div class="book" role="listitem" aria-label="Book 10" data-title="Man's Search for Meaning, Viktor E. Frankl"></div>
+        <div class="book" role="listitem" aria-label="Book 11" data-title="Mastering the Market Cycles, Howard Marks"></div>
+        <div class="book" role="listitem" aria-label="Book 12" data-title="Meditations, Marcus Aurelius"></div>
+        <div class="book" role="listitem" aria-label="Book 13" data-title="Outliers, Malcolm Gladwell"></div>
+        <div class="book" role="listitem" aria-label="Book 14" data-title="Poor Charlie's Almanack, Charlie Munger"></div>
+        <div class="book" role="listitem" aria-label="Book 15" data-title="The Power of Now, Eckhart Tolle"></div>
+        <div class="book" role="listitem" aria-label="Book 16" data-title="The Richest Man in Babylon, George S. Clason"></div>
+        <div class="book" role="listitem" aria-label="Book 17" data-title="Sapiens, Yuval Noah Harari"></div>
+        <div class="book" role="listitem" aria-label="Book 18" data-title="The War of Art, Steven Pressfield"></div>
+        <div class="book" role="listitem" aria-label="Book 19" data-title="Zero to One, Peter Thiel"></div>
+        <div class="book" role="listitem" aria-label="Book 20" data-title="Read Write Own, Chris Dixon"></div>
+      </div>
+      
+      <div class="bookshelf-list" id="bookshelf-list">
+        <ul id="book-titles-list">
+          <!-- Book titles will be populated by JavaScript -->
+        </ul>
+      </div>
     </section>
 
     <!-- Footer / social -->
@@ -275,6 +348,7 @@
       <nav class="nav" aria-label="Secondary">
         <a href="/">home</a>
         <a href="/bookshelf.html" aria-current="page">bookshelf</a>
+        <a href="https://mferro.substack.com/" target="_blank" rel="noopener noreferrer">writings</a>
       </nav>
     </footer>
   </main>
@@ -283,6 +357,45 @@
     document.addEventListener('DOMContentLoaded', function() {
       const canvas = document.getElementById('bookshelf-canvas');
       const books = document.querySelectorAll('.book');
+      const bookshelfList = document.getElementById('bookshelf-list');
+      const bookTitlesList = document.getElementById('book-titles-list');
+      const gridViewBtn = document.getElementById('grid-view');
+      const listViewBtn = document.getElementById('list-view');
+      
+      // View toggle functionality
+      function showGridView() {
+        canvas.style.display = 'block';
+        bookshelfList.classList.remove('show');
+        gridViewBtn.classList.add('active');
+        listViewBtn.classList.remove('active');
+      }
+      
+      function showListView() {
+        canvas.style.display = 'none';
+        bookshelfList.classList.add('show');
+        listViewBtn.classList.add('active');
+        gridViewBtn.classList.remove('active');
+      }
+      
+      // Populate list view with book titles
+      function populateListView() {
+        bookTitlesList.innerHTML = '';
+        books.forEach(book => {
+          const title = book.getAttribute('data-title');
+          if (title) {
+            const li = document.createElement('li');
+            li.textContent = title;
+            bookTitlesList.appendChild(li);
+          }
+        });
+      }
+      
+      // Event listeners for view toggle
+      gridViewBtn.addEventListener('click', showGridView);
+      listViewBtn.addEventListener('click', showListView);
+      
+      // Initialize list view
+      populateListView();
       
       // Randomly position books initially
       function randomizeBooks() {
