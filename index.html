@@ -72,7 +72,10 @@
 
     html, body {
       height: 100%;
-      background: #fff;
+      background: #f8f6f3;
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0);
+      background-size: 20px 20px;
     }
 
     body {
@@ -107,6 +110,10 @@
       color: var(--fg);
       text-decoration: underline;
       text-underline-offset: 2px;
+    }
+
+    header {
+      position: relative;
     }
 
     h1 {
@@ -153,13 +160,17 @@
     li { margin: 4px 0; }
 
     a {
-      color: #0066cc;
+      color: var(--fg);
+      text-decoration: underline;
     }
-    a:hover { color: #004499; }
+    a:hover { 
+      color: var(--muted);
+    }
 
     /* Photos */
     .photo-gallery {
       margin: 28px 0 36px;
+      position: relative;
     }
     .photo-gallery p {
       margin: 0 0 10px;
@@ -167,23 +178,22 @@
     .photo-grid {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: center;
       margin-bottom: 16px;
     }
     .photo-item {
       flex: 0 0 auto;
-      width: 110px;
-      height: 110px;
-      border-radius: 6px;
+      width: 120px;
+      height: 120px;
+      border-radius: 0;
       background-size: cover;
       background-position: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      cursor: pointer;
     }
 
     /* Photo gallery images */
-    .photo-item:nth-child(1) { background-image: url('images/IMG_1014.jpg'); }
+    .photo-item:nth-child(1) { background-image: url('images/IMG_3071.jpg'); }
     .photo-item:nth-child(2) { background-image: url('images/IMG_2774.JPG'); }
     .photo-item:nth-child(3) { background-image: url('images/IMG_2802.JPG'); }
     .photo-item:nth-child(4) { background-image: url('images/IMG_3749.jpg'); }
@@ -214,7 +224,7 @@
     .icons svg { width: 100%; height: 100%; fill: var(--fg); }
 
     @media (max-width: 420px) {
-      .photo-item { width: 96px; height: 96px; }
+      .photo-item { width: 100px; height: 100px; }
     }
 
     .photo-description {
@@ -324,6 +334,170 @@
     .lightbox-next {
       right: 20px;
     }
+
+    /* Quote styling */
+    .quote {
+      margin: 32px 0;
+      padding: 0;
+      border: none;
+      font-style: italic;
+      position: relative;
+    }
+
+    .quote p {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--fg);
+      margin: 0 0 8px;
+      font-weight: 400;
+    }
+
+    .quote cite {
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: var(--muted);
+      font-style: normal;
+      display: block;
+      text-align: right;
+    }
+
+    .quote cite em {
+      font-style: italic;
+    }
+
+    /* Copyright */
+    .copyright {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+      z-index: 1000;
+    }
+
+    /* Spinning vinyl record */
+    .vinyl-record {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-image: url('images/3cb283707ed39d1243cf18f7a0c6d5a8.jpg');
+      background-size: cover;
+      background-position: center;
+      animation: spin 3s linear infinite;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    /* Vinyl record tooltip - COMPLETELY SEPARATE */
+    .vinyl-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: fixed;
+      top: 62px;
+      right: 82px;
+      background: none;
+      color: var(--fg);
+      text-align: right;
+      padding: 0;
+      font-size: 12px;
+      font-weight: 400;
+      white-space: pre-line;
+      z-index: 1001;
+      transition: opacity 0.15s ease, visibility 0.15s ease;
+      pointer-events: none;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+      line-height: 1.4;
+    }
+
+    .vinyl-tooltip.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Typing animation - slower, more human */
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    .vinyl-tooltip.typing {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      animation: typing 4s steps(22, end) forwards;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Custom tooltips - Dieter Rams inspired */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--fg);
+      color: white;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      z-index: 1000;
+      transition: opacity 0.15s ease, visibility 0.15s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .tooltip .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -4px;
+      border-width: 4px;
+      border-style: solid;
+      border-color: var(--fg) transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* For writings link tooltip positioning */
+    .tooltip.writings .tooltip-text {
+      bottom: auto;
+      top: 125%;
+    }
+
+    .tooltip.writings .tooltip-text::after {
+      top: auto;
+      bottom: 100%;
+      border-color: transparent transparent var(--fg) transparent;
+    }
   </style>
 </head>
 
@@ -331,15 +505,24 @@
   <main class="page">
          <header>
       <h1>Michael Ferro</h1>
+      <div class="vinyl-record" aria-label="Spinning vinyl record"></div>
     </header>
+    
+    <div class="vinyl-tooltip" id="vinyl-tooltip">20 seconds of what
+I'm listening to this week</div>
+    
+    <audio id="track-audio" preload="metadata">
+      <source src="images/berlioz - nyc in 1940.mp3" type="audio/mpeg">
+    </audio>
 
     <section aria-labelledby="about">
       <ul>
-        <li>20. Currently growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a><span id="live-indicator" style="display: none;"> (we're <a href="https://www.youtube.com/@TBPNLive" target="_blank" rel="noopener noreferrer">live</a> now!)</span></li>
-                 <li>Third-year economics student at Chapman</li>
+        <li>20. Economics at Chapman</li>
+        <li>Formerly Growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a></li>
+        <li>Scaling <a href="https://www.chapmanentrepreneurs.org/" target="_blank" rel="noopener noreferrer">builder culture</a> at Chapman</li>
         <li>Previously at a family office</li>
       </ul>
-             <p>In my free time I like to cook, read, play sports, and explore new places.</p>
+             <p>In my free time I like to cook, read, gym, play sports, listen to jazz, and explore new places with a backpack and some friends.</p>
     </section>
 
     <section class="photo-gallery" aria-labelledby="photos">
@@ -352,6 +535,11 @@
       </div>
       <div class="photo-description" id="photo-description"></div>
     </section>
+
+    <blockquote class="quote">
+      <p>"What you are stands over you the while, and thunders so that I cannot hear what you say to the contrary."</p>
+      <cite>— Ralph Waldo Emerson, <em>Social Aims</em></cite>
+    </blockquote>
 
     <!-- Lightbox Modal -->
     <div class="lightbox" id="lightbox"
@@ -367,11 +555,14 @@
     <!-- Footer / social -->
     <footer class="footer">
              <div class="icons" aria-label="Social links">
-         <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
-           <svg viewBox="0 0 24 24" aria-hidden="true">
-             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-           </svg>
-         </a>
+         <div class="tooltip">
+           <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
+             <svg viewBox="0 0 24 24" aria-hidden="true">
+               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+             </svg>
+           </a>
+           <span class="tooltip-text">what i'm thinking about</span>
+         </div>
          <a href="https://www.linkedin.com/in/ferrom/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
            <svg viewBox="0 0 24 24" aria-hidden="true">
              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
@@ -387,9 +578,16 @@
       <nav class="nav" aria-label="Secondary">
         <a href="/" aria-current="page">home</a>
         <a href="/bookshelf.html">bookshelf</a>
-        <a href="https://mferro.substack.com/" target="_blank" rel="noopener noreferrer">writings</a>
+        <div class="tooltip writings">
+          <a href="#" onclick="return false;">writings</a>
+          <span class="tooltip-text">coming soon!</span>
+        </div>
       </nav>
     </footer>
+    
+    <div class="copyright">
+      © 2025 Michael Ferro
+    </div>
   </main>
 
   <script>
@@ -419,95 +617,67 @@
         });
       });
       
-      // Open lightbox when clicking on an image
-      photoItems.forEach((item, index) => {
-        item.addEventListener('click', function() {
-          currentIndex = index;
-          openLightbox();
-        });
+      // Lightbox functionality disabled
+      
+      // Track of the week functionality
+      const vinylRecord = document.querySelector('.vinyl-record');
+      const trackAudio = document.getElementById('track-audio');
+      const vinylTooltip = document.getElementById('vinyl-tooltip');
+      let isPlaying = false;
+      
+      // Show/hide tooltip on hover
+      vinylRecord.addEventListener('mouseenter', function() {
+        vinylTooltip.classList.add('show');
       });
       
-      // Close lightbox
-      lightboxClose.addEventListener('click', closeLightbox);
-      lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-          closeLightbox();
-        }
+      vinylRecord.addEventListener('mouseleave', function() {
+        vinylTooltip.classList.remove('show');
       });
       
-      // Navigation
-      lightboxPrev.addEventListener('click', function() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        updateLightbox();
-      });
-      
-      lightboxNext.addEventListener('click', function() {
-        currentIndex = (currentIndex + 1) % images.length;
-        updateLightbox();
-      });
-      
-      // Keyboard navigation
-      document.addEventListener('keydown', function(e) {
-        if (!lightbox.classList.contains('show')) return;
-        
-        if (e.key === 'Escape') {
-          closeLightbox();
-        } else if (e.key === 'ArrowLeft') {
-          currentIndex = (currentIndex - 1 + images.length) % images.length;
-          updateLightbox();
-        } else if (e.key === 'ArrowRight') {
-          currentIndex = (currentIndex + 1) % images.length;
-          updateLightbox();
-        }
-      });
-      
-      function openLightbox() {
-        updateLightbox();
-        lightbox.classList.add('show');
-        document.body.style.overflow = 'hidden';
-      }
-      
-      function closeLightbox() {
-        lightbox.classList.remove('show');
-        document.body.style.overflow = '';
-      }
-      
-      function updateLightbox() {
-        const currentImage = images[currentIndex];
-        const imageSrc = currentImage.getAttribute('data-image');
-        const description = currentImage.getAttribute('data-description');
-        
-        lightboxImage.src = imageSrc;
-        lightboxImage.alt = currentImage.getAttribute('aria-label');
-        lightboxDescription.textContent = description;
-      }
-      
-      // Live indicator functionality
-      function checkLiveStatus() {
-        const liveIndicator = document.getElementById('live-indicator');
-        const now = new Date();
-        const pstTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
-        
-        const dayOfWeek = pstTime.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-        const hour = pstTime.getHours();
-        
-        // Check if it's a weekday (Monday = 1, Tuesday = 2, ..., Friday = 5)
-        // and between 11am (11) and 2pm (14) PT
-        const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5;
-        const isLiveTime = hour >= 11 && hour < 14;
-        
-        if (isWeekday && isLiveTime) {
-          liveIndicator.style.display = 'inline';
+      function updateTooltipText() {
+        if (isPlaying) {
+          vinylTooltip.classList.remove('typing');
+          vinylTooltip.textContent = 'nyc in 1940, berlioz';
+          // Trigger typing animation
+          setTimeout(() => {
+            vinylTooltip.classList.add('typing');
+          }, 10);
         } else {
-          liveIndicator.style.display = 'none';
+          vinylTooltip.classList.remove('typing');
+          vinylTooltip.textContent = '20 seconds of what\nI\'m listening to this week';
         }
       }
       
-      // Check live status on page load
-      checkLiveStatus();
+      vinylRecord.addEventListener('click', function() {
+        if (isPlaying) {
+          // Stop if already playing
+          trackAudio.pause();
+          trackAudio.currentTime = 20; // Reset to 20 second mark
+          isPlaying = false;
+          updateTooltipText();
+        } else {
+          // Start playing from 20 second mark
+          trackAudio.currentTime = 20;
+          trackAudio.play();
+          isPlaying = true;
+          updateTooltipText();
+          
+          // Stop after 20 seconds
+          setTimeout(() => {
+            trackAudio.pause();
+            trackAudio.currentTime = 20; // Reset to 20 second mark
+            isPlaying = false;
+            updateTooltipText();
+          }, 20000);
+        }
+      });
       
-      // Check live status every minute
-      setInterval(checkLiveStatus, 60000);
+      // Reset playing state when audio ends naturally
+      trackAudio.addEventListener('ended', function() {
+        isPlaying = false;
+        trackAudio.currentTime = 20; // Reset to 20 second mark
+        updateTooltipText();
+      });
     });
   </script>
 </body>
