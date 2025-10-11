@@ -91,11 +91,16 @@
       margin-bottom: 36px;
       position: relative;
       z-index: 10;
+      align-items: center;
+      margin: 0;
     }
     .nav a {
       text-decoration: none;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.4;
+      display: inline-block;
     }
     .nav a[aria-current="page"],
     .nav a:hover {
@@ -257,25 +262,32 @@
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       gap: 12px;
       flex-wrap: wrap;
       position: relative;
       z-index: 10;
     }
-    .icons {
+    .contact-links {
       display: flex;
-      gap: 14px;
-      margin-bottom: 2px;
+      gap: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+      align-items: center;
+      margin: 0;
     }
-    .icons a {
-      display: inline-flex;
-      width: 20px;
-      height: 20px;
-      opacity: .8;
+    .contact-links a {
+      text-decoration: none;
+      color: var(--muted);
+      display: inline-block;
     }
-    .icons a:hover { opacity: 1; }
-    .icons svg { width: 100%; height: 100%; fill: var(--fg); }
+    .contact-links a:hover {
+      color: var(--fg);
+    }
+    .contact-links span {
+      color: var(--muted);
+      display: inline-block;
+    }
 
     @media (max-width: 768px) {
       .bookshelf-canvas {
@@ -354,6 +366,17 @@
       bottom: 100%;
       border-color: transparent transparent var(--fg) transparent;
     }
+    
+    /* Time display */
+    .time-display {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: "Times New Roman", Times, serif;
+      z-index: 1000;
+    }
   </style>
 </head>
 
@@ -413,26 +436,11 @@
 
     <!-- Footer / social -->
     <footer class="footer">
-             <div class="icons" aria-label="Social links">
-         <div class="tooltip">
-           <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
-             <svg viewBox="0 0 24 24" aria-hidden="true">
-               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-             </svg>
-           </a>
-           <span class="tooltip-text">what i'm thinking about</span>
-         </div>
-         <a href="https://www.linkedin.com/in/ferrom/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-           <svg viewBox="0 0 24 24" aria-hidden="true">
-             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-           </svg>
-         </a>
-         <a href="mailto:ferrojm11@gmail.com" aria-label="Email">
-           <svg viewBox="0 0 24 24" aria-hidden="true">
-             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-           </svg>
-         </a>
-       </div>
+      <div class="contact-links" aria-label="Contact links">
+        <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer">@MichaelFerro (𝕏)</a>
+        <span>/</span>
+        <a href="https://www.linkedin.com/in/ferrom/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
 
       <nav class="nav" aria-label="Secondary">
         <a href="/">home</a>
@@ -444,8 +452,27 @@
       </nav>
     </footer>
   </main>
+  
+  <div class="time-display" id="time-display"></div>
 
   <script>
+    // Time display update
+    function updateTime() {
+      const now = new Date();
+      const options = {
+        timeZone: 'America/Los_Angeles',
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      };
+      const timeString = now.toLocaleTimeString('en-US', options) + ' PDT';
+      document.getElementById('time-display').textContent = timeString;
+    }
+    
+    updateTime();
+    setInterval(updateTime, 1000);
+    
     document.addEventListener('DOMContentLoaded', function() {
       const canvas = document.getElementById('bookshelf-canvas');
       const books = document.querySelectorAll('.book');

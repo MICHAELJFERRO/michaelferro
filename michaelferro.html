@@ -35,7 +35,7 @@
         
         .nav a {
             font-family: "Times New Roman", Times, serif;
-            font-weight: 600;
+            font-weight: 400;
             text-decoration: none;
             color: #666;
             margin-right: 20px;
@@ -60,38 +60,46 @@
             align-items: center;
         }
         
-        .social-icons {
+        .contact-links {
             display: flex;
-            gap: 15px;
+            gap: 8px;
+            font-size: 13px;
+            line-height: 1.4;
+            align-items: center;
+            margin: 0;
         }
         
-        .social-links a {
+        .contact-links a {
+            text-decoration: none;
+            color: #666;
             display: inline-block;
-            opacity: 0.7;
-            transition: opacity 0.2s ease;
         }
         
-        .social-links a:hover {
-            opacity: 1;
+        .contact-links a:hover {
+            color: #2c2c2c;
         }
         
-        .social-links svg {
-            width: 20px;
-            height: 20px;
-            fill: #2c2c2c;
+        .contact-links span {
+            color: #666;
+            display: inline-block;
         }
         
         .bottom-nav {
             display: flex;
             gap: 20px;
+            align-items: center;
+            margin: 0;
         }
         
         .bottom-nav a {
             font-family: "Times New Roman", Times, serif;
-            font-weight: 600;
+            font-weight: 400;
             text-decoration: none;
             color: #666;
             letter-spacing: -0.5px;
+            font-size: 13px;
+            line-height: 1.4;
+            display: inline-block;
         }
         
         .bottom-nav a.selected {
@@ -147,6 +155,19 @@
         .photo-item:nth-child(5) {
             background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F8F8F8"/><rect x="10" y="40" width="80" height="30" fill="%23E0E0E0"/><rect x="15" y="45" width="70" height="20" fill="%23D0D0D0"/><circle cx="30" cy="55" r="4" fill="%23999"/><circle cx="50" cy="55" r="4" fill="%23999"/><circle cx="70" cy="55" r="4" fill="%23999"/><text x="50" y="85" text-anchor="middle" fill="%23666" font-size="8">Studio</text></svg>');
         }
+        
+        /* Time display */
+        .time-display {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: #666;
+            font-family: "Times New Roman", Times, serif;
+            z-index: 1000;
+        }
+        
+        h1 {
             font-family: "Times New Roman", Times, serif;
             font-size: 2em;
             margin-bottom: 25px;
@@ -160,7 +181,7 @@
         
         .nav a {
             font-family: "Times New Roman", Times, serif;
-            font-weight: 600;
+            font-weight: 400;
             text-decoration: none;
             color: #666;
             margin-right: 20px;
@@ -240,22 +261,36 @@
     </div>
     
     <div class="social-links">
-        <div class="social-icons">
-            <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-            </a>
-            <a href="https://www.linkedin.com/in/ferrom/" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-            </a>
+        <div class="contact-links">
+            <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer">@MichaelFerro (𝕏)</a>
+            <span>/</span>
+            <a href="https://www.linkedin.com/in/ferrom/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
         <div class="bottom-nav">
             <a href="#" class="selected">home</a>
             <a href="#">bookshelf</a>
         </div>
     </div>
+    
+    <div class="time-display" id="time-display"></div>
+    
+    <script>
+        // Time display update
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'America/Los_Angeles',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const timeString = now.toLocaleTimeString('en-US', options) + ' PDT';
+            document.getElementById('time-display').textContent = timeString;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
