@@ -12,7 +12,7 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Michael Ferro - Growth @ TBPN | Chapman University Economics</title>
+  <title>Michael Ferro</title>
 
   <!-- Meta -->
   <meta name="description" content="Personal site of Michael Ferro — growth @ TBPN, third-year Economics at Chapman." />
@@ -124,7 +124,7 @@
     h1 {
       font-family: "Times New Roman", Times, serif;
       font-weight: 500;
-      font-size: clamp(28px, 5vw, 40px);
+      font-size: clamp(24px, 4.5vw, 34px);
       letter-spacing: 0;
       margin: 0 0 8px;
     }
@@ -440,73 +440,6 @@
       z-index: 1000;
     }
 
-    /* Spinning vinyl record */
-    .vinyl-record {
-      position: absolute;
-      top: 3px;
-      right: 3px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-image: url('images/3cb283707ed39d1243cf18f7a0c6d5a8.jpg');
-      background-size: cover;
-      background-position: center;
-      animation: spin 3s linear infinite;
-      z-index: 1000;
-      cursor: pointer;
-    }
-
-    /* Vinyl record tooltip - COMPLETELY SEPARATE */
-    .vinyl-tooltip {
-      visibility: hidden;
-      opacity: 0;
-      position: fixed;
-      top: 68px;
-      right: 82px;
-      background: none;
-      color: var(--fg);
-      text-align: right;
-      padding: 0;
-      font-size: 12px;
-      font-weight: 400;
-      white-space: pre-line;
-      z-index: 1001;
-      transition: opacity 0.15s ease, visibility 0.15s ease;
-      pointer-events: none;
-      font-family: "Times New Roman", Times, serif;
-      line-height: 1.4;
-    }
-
-    .vinyl-tooltip.show {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    /* Typing animation - slower, more human */
-    @keyframes typing {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-
-    .vinyl-tooltip.typing {
-      overflow: hidden;
-      white-space: nowrap;
-      width: 0;
-      animation: typing 4s steps(22, end) forwards;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
 
     /* Custom tooltips - Dieter Rams inspired */
     .tooltip {
@@ -568,19 +501,11 @@
   <main class="page">
          <header>
       <h1>Michael Ferro</h1>
-      <div class="vinyl-record" aria-label="Spinning vinyl record"></div>
     </header>
-    
-    <div class="vinyl-tooltip" id="vinyl-tooltip">20 seconds of what
-I'm listening to this week</div>
-    
-    <audio id="track-audio" preload="metadata">
-      <source src="images/berlioz - nyc in 1940.mp3" type="audio/mpeg">
-    </audio>
 
     <section aria-labelledby="about">
       <ul>
-        <li>20. economics at Chapman</li>
+        <li>based in LA. economics at Chapman</li>
         <li>formerly growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a></li>
         <li>scaling <a href="https://www.chapmanentrepreneurs.org/" target="_blank" rel="noopener noreferrer">builder culture</a> at Chapman</li>
         <li>previously at a family office</li>
@@ -601,7 +526,7 @@ I'm listening to this week</div>
 
     <blockquote class="quote">
       <p>"What you are stands over you the while, and thunders so that I cannot hear what you say to the contrary."</p>
-      <cite>— Ralph Waldo Emerson, <em>Social Aims</em></cite>
+      <cite>— Ralph Waldo Emerson</cite>
     </blockquote>
 
     <!-- Lightbox Modal -->
@@ -650,7 +575,7 @@ I'm listening to this week</div>
         minute: '2-digit',
         second: '2-digit'
       };
-      const timeString = now.toLocaleTimeString('en-US', options) + ' PDT';
+      const timeString = now.toLocaleTimeString('en-US', options) + ' PT';
       document.getElementById('time-display').textContent = timeString;
     }
     
@@ -684,66 +609,6 @@ I'm listening to this week</div>
       });
       
       // Lightbox functionality disabled
-      
-      // Track of the week functionality
-      const vinylRecord = document.querySelector('.vinyl-record');
-      const trackAudio = document.getElementById('track-audio');
-      const vinylTooltip = document.getElementById('vinyl-tooltip');
-      let isPlaying = false;
-      
-      // Show/hide tooltip on hover
-      vinylRecord.addEventListener('mouseenter', function() {
-        vinylTooltip.classList.add('show');
-      });
-      
-      vinylRecord.addEventListener('mouseleave', function() {
-        vinylTooltip.classList.remove('show');
-      });
-      
-      function updateTooltipText() {
-        if (isPlaying) {
-          vinylTooltip.classList.remove('typing');
-          vinylTooltip.textContent = 'nyc in 1940, berlioz';
-          // Trigger typing animation
-          setTimeout(() => {
-            vinylTooltip.classList.add('typing');
-          }, 10);
-        } else {
-          vinylTooltip.classList.remove('typing');
-          vinylTooltip.textContent = '20 seconds of what\nI\'m listening to this week';
-        }
-      }
-      
-      vinylRecord.addEventListener('click', function() {
-        if (isPlaying) {
-          // Stop if already playing
-          trackAudio.pause();
-          trackAudio.currentTime = 20; // Reset to 20 second mark
-          isPlaying = false;
-          updateTooltipText();
-        } else {
-          // Start playing from 20 second mark
-          trackAudio.currentTime = 20;
-          trackAudio.play();
-          isPlaying = true;
-          updateTooltipText();
-          
-          // Stop after 20 seconds
-          setTimeout(() => {
-            trackAudio.pause();
-            trackAudio.currentTime = 20; // Reset to 20 second mark
-            isPlaying = false;
-            updateTooltipText();
-          }, 20000);
-        }
-      });
-      
-      // Reset playing state when audio ends naturally
-      trackAudio.addEventListener('ended', function() {
-        isPlaying = false;
-        trackAudio.currentTime = 20; // Reset to 20 second mark
-        updateTooltipText();
-      });
     });
   </script>
 </body>
