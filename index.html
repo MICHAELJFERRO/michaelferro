@@ -36,6 +36,9 @@
   
   <link rel="icon" href="images/01anyn9kjAL.png" type="image/png">
   <link rel="canonical" href="https://mferro.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -79,11 +82,12 @@
     }
 
     body {
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--fg);
       margin: 0;
       display: flex;
       justify-content: flex-start;
+      align-items: center;
       font-size: 15px;
     }
 
@@ -106,9 +110,10 @@
       text-decoration: none;
       color: var(--muted);
       font-weight: 400;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.4;
       display: inline-block;
+      transition: color 0.2s ease, text-decoration 0.2s ease;
     }
     .nav a[aria-current="page"],
     .nav a:hover {
@@ -126,10 +131,10 @@
     }
 
     h1 {
-      font-family: "Times New Roman", Times, serif;
-      font-weight: 500;
-      font-size: clamp(24px, 4.5vw, 34px);
-      letter-spacing: 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(32px, 5.5vw, 46px);
+      letter-spacing: -0.01em;
       margin: 0;
     }
 
@@ -221,7 +226,7 @@
       right: 0;
       background: none;
       border: none;
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 15px;
       color: var(--fg);
       cursor: pointer;
@@ -447,7 +452,7 @@
     }
 
     .quote p {
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 16px;
       line-height: 1.6;
       color: var(--fg);
@@ -456,7 +461,7 @@
     }
 
     .quote cite {
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 13px;
       color: var(--muted);
       font-style: normal;
@@ -476,7 +481,7 @@
       right: 20px;
       font-size: 13px;
       color: var(--muted);
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       z-index: 1000;
     }
 
@@ -553,11 +558,11 @@
 
     <section aria-labelledby="about">
       <ul>
-        <li>based in LA. studying economics at Chapman</li>
-        <li>formerly growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a></li>
-        <li>earlier at a family office</li>
+        <li>Based in LA, studying economics at Chapman</li>
+        <li>Formerly growth at <a href="https://www.tbpn.com" target="_blank" rel="noopener noreferrer">TBPN</a></li>
+        <li>Earlier at a family office</li>
       </ul>
-             <p>in my free time I like to cook, read, gym, play sports, listen to jazz, and <span class="explore-trigger" id="explore-trigger">explore new places ↘</span> with a backpack and some friends.</p>
+             <p>In my free time I like to cook, read, go to the gym, play sports, listen to jazz, and <span class="explore-trigger" id="explore-trigger">explore new places ↘</span> with a backpack and some friends.</p>
     </section>
 
     <section class="photo-gallery" aria-labelledby="photos" id="photo-gallery" style="display: none;">
@@ -590,7 +595,7 @@
 
     <!-- Footer / social -->
     <footer class="footer">
-      <p>you can follow me on 𝕏 at <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer">@MichaelFerro</a></p>
+      <p>You can follow me on X at <a href="https://x.com/MichaelFerro" target="_blank" rel="noopener noreferrer">@MichaelFerro</a></p>
     </footer>
     
     <div class="time-display" id="time-display"></div>
